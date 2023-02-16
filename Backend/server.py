@@ -1,4 +1,7 @@
+from pydoc import resolve
+from urllib import response
 from conexion import obtener_conexion
+import controlador
 from flask import Flask, jsonify, request, Response
 from flask_cors import CORS
 
@@ -16,6 +19,16 @@ def index():
         print("NO SE PUEDE ESTABLECER LA CONEXION A LA BASE DE DATOS")
         return jsonify({'AYD1': "NO SE PUEDE ESTABLECER LA CONEXION A LA BASE DE DATOS"})
 
+@app.route('/addContact', methods=["POST"])
+def addContact():
+    info = request.json
+    nom = info['nombre']
+    ape = info['apellido']
+    tel = info['telefono']
+    mail = info['correo']
+    print(nom, ape, tel, mail)
+    controlador.AgregarContacto(nom, ape, tel, mail)
+    return jsonify({"respuesta":"SE AGREGO UN CONTACTO EXITOSAMENTE"})
 
 if __name__ == '__main__':
     print("SERVIDOR INICIADO EN EL PUERTO: 5000")

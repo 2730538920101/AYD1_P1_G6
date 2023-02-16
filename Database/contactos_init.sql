@@ -13,3 +13,5 @@ IdFavorito int not null,
 FOREIGN KEY(IdFavorito) REFERENCES CONTACTO(IdContacto)
 ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+SELECT * from CONTACTO;

@@ -54,6 +54,13 @@ def searchContact(mail):
     contacto = controlador.BuscarContacto(mail)
     return jsonify({"respuesta":contacto})
 
+@app.route('/addFavorite', methods=["POST"])
+def addFavorite():
+    info = request.json
+    id_contacto = info['id_contacto']
+    controlador.AgregarFavorito(id_contacto)
+    return jsonify({"respuesta":"EL CONTACTO HA SIDO INGRESADO A FAVORITOS EXITOSAMENTE"})
+
 if __name__ == '__main__':
     print("SERVIDOR INICIADO EN EL PUERTO: 5000")
     

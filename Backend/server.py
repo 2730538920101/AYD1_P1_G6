@@ -43,6 +43,11 @@ def deleteContact(IdContacto):
     controlador.EliminarContacto(IdContacto)
     return jsonify({"respuesta":"SE ELIMINO UN CONTACTO EXITOSAMENTE"})
 
+@app.route('/showContacts', methods=["GET"])
+def showContacts():
+    contactos = controlador.VerContactos()
+    return jsonify({"respuesta":contactos})
+
 if __name__ == '__main__':
     print("SERVIDOR INICIADO EN EL PUERTO: 5000")
     

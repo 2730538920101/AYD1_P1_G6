@@ -22,3 +22,12 @@ def EliminarContacto(id):
         cursor.execute("DELETE FROM CONTACTO WHERE IdContacto = %s", (id,))
     conexion.commit()
     conexion.close()
+
+def VerContactos():
+    conexion = obtener_conexion()
+    contactos = []
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT Nombre, Apellido, Telefono, Correo FROM CONTACTO")
+        contactos = cursor.fetchall()
+    conexion.close()
+    return contactos

@@ -31,3 +31,13 @@ def VerContactos():
         contactos = cursor.fetchall()
     conexion.close()
     return contactos
+
+def BuscarContacto(mail):
+    conexion = obtener_conexion()
+    contacto = None
+    with conexion.cursor() as cursor:
+        cursor.execute(
+            "SELECT Nombre, Apellido, Telefono, Correo FROM CONTACTO WHERE Correo = %s", (mail,))
+        contacto = cursor.fetchone()
+    conexion.close()
+    return contacto

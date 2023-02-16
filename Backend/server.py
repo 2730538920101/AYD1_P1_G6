@@ -37,6 +37,11 @@ def updateContact(IdContacto):
     controlador.ModificarContacto(IdContacto, tel, mail)
     return jsonify({"respuesta":"SE MODIFICO UN CONTACTO EXITOSAMENTE"})
 
+@app.route('/deleteContact/<int:IdContacto>', methods=["DELETE"])
+def deleteContact(IdContacto):
+    print(IdContacto)
+    controlador.EliminarContacto(IdContacto)
+    return jsonify({"respuesta":"SE ELIMINO UN CONTACTO EXITOSAMENTE"})
 
 if __name__ == '__main__':
     print("SERVIDOR INICIADO EN EL PUERTO: 5000")

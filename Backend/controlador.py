@@ -15,3 +15,10 @@ def ModificarContacto(id, telefono, correo):
                        (telefono, correo, id))
     conexion.commit()
     conexion.close()
+
+def EliminarContacto(id):
+    conexion = obtener_conexion()
+    with conexion.cursor() as cursor:
+        cursor.execute("DELETE FROM CONTACTO WHERE IdContacto = %s", (id,))
+    conexion.commit()
+    conexion.close()

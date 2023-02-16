@@ -41,3 +41,10 @@ def BuscarContacto(mail):
         contacto = cursor.fetchone()
     conexion.close()
     return contacto
+
+def AgregarFavorito(id_contacto):
+    conexion = obtener_conexion()
+    with conexion.cursor() as cursor:
+        cursor.execute("INSERT INTO FAVORITO(IdFavorito) VALUES (%s)", (id_contacto,))
+    conexion.commit()
+    conexion.close()

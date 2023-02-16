@@ -48,6 +48,12 @@ def showContacts():
     contactos = controlador.VerContactos()
     return jsonify({"respuesta":contactos})
 
+@app.route('/searchContact/<mail>', methods=['GET'])
+def searchContact(mail):
+    print(mail)
+    contacto = controlador.BuscarContacto(mail)
+    return jsonify({"respuesta":contacto})
+
 if __name__ == '__main__':
     print("SERVIDOR INICIADO EN EL PUERTO: 5000")
     

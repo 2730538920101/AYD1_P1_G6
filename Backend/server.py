@@ -1,5 +1,3 @@
-from pydoc import resolve
-from urllib import response
 from conexion import obtener_conexion
 import controlador
 from flask import Flask, jsonify, request, Response
@@ -29,6 +27,16 @@ def addContact():
     print(nom, ape, tel, mail)
     controlador.AgregarContacto(nom, ape, tel, mail)
     return jsonify({"respuesta":"SE AGREGO UN CONTACTO EXITOSAMENTE"})
+
+@app.route('/updateContact/<int:IdContacto>', methods=["PUT"])
+def updateContact(IdContacto):
+    info = request.json
+    tel = info['telefono']
+    mail = info['correo']
+    print(IdContacto, tel, mail)
+    controlador.ModificarContacto(IdContacto, tel, mail)
+    return jsonify({"respuesta":"SE MODIFICO UN CONTACTO EXITOSAMENTE"})
+
 
 if __name__ == '__main__':
     print("SERVIDOR INICIADO EN EL PUERTO: 5000")

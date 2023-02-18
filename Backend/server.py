@@ -54,6 +54,11 @@ def searchContact(mail):
     contacto = controlador.BuscarContacto(mail)
     return jsonify({"respuesta":contacto})
 
+@app.route('/deleteFavorite/<int:IdContacto>', methods=["DELETE"])
+def EliminarFavorito(IdContacto):
+    controlador.EliminarFavorito(IdContacto)
+    return jsonify({"respuesta":"EL CONTACTO HA SIDO ELIMINADO DE FAVORITOS EXITOSAMENTE"})
+
 @app.route('/addFavorite', methods=["POST"])
 def addFavorite():
     info = request.json

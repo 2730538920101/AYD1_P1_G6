@@ -48,3 +48,10 @@ def AgregarFavorito(id_contacto):
         cursor.execute("INSERT INTO FAVORITO(IdFavorito) VALUES (%s)", (id_contacto,))
     conexion.commit()
     conexion.close()
+
+def EliminarFavorito(id):
+    conexion = obtener_conexion()
+    with conexion.cursor() as cursor:
+        cursor.execute("DELETE FROM FAVORITO WHERE IdFavorito = %s", (id,))
+    conexion.commit()
+    conexion.close()

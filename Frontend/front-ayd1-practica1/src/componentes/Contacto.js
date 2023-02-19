@@ -3,8 +3,32 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
+import { useState, useEffect } from "react";
 
 function Contacto() {
+  const url = "http://localhost:5000/";
+  const [data, setData] = useState([]);
+  const contactos = data.map(([id, nombre, apellido, telefono, correo]) => ({
+    id,
+    nombre,
+    apellido,
+    telefono,
+    correo,
+  }));
+
+  async function verContactos() {
+    await fetch(`${url}showContacts`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.respuesta);
+        setData(data.respuesta);
+      });
+  }
+
+  useEffect(() => {
+    verContactos();
+  }, []);
+
   return (
     <div>
       <br></br>
@@ -24,22 +48,28 @@ function Contacto() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>12345</td>
-                  <td>kca@mail.com</td>
-                  <td>
-                    <Button variant="info">Actualizar</Button>
-                    <Button variant="danger" style={{ margin: "1%" }}>
-                      Eliminar
-                    </Button>
-                    <Button variant="warning">Favorito</Button>
-                    <Button variant="success" style={{ marginLeft: "1%" }}>
-                      Enviar email
-                    </Button>
-                  </td>
-                </tr>
+                {contactos.map((contacto) => {
+                  return (
+                    <tr key={contacto.id}>
+                      <td>{contacto.nombre}</td>
+                      <td>{contacto.apellido}</td>
+                      <td>{contacto.telefono}</td>
+                      <td>{contacto.telefono}</td>
+                      <td>
+                        <Button variant="info" onClick={() => {}}>
+                          Actualizar
+                        </Button>
+                        <Button variant="danger" style={{ margin: "1%" }}>
+                          Eliminar
+                        </Button>
+                        <Button variant="warning">Favorito</Button>
+                        <Button variant="success" style={{ marginLeft: "1%" }}>
+                          Enviar email
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </Table>
           </Col>

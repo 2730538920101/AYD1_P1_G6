@@ -55,3 +55,12 @@ def EliminarFavorito(id):
         cursor.execute("DELETE FROM FAVORITO WHERE IdFavorito = %s", (id,))
     conexion.commit()
     conexion.close()
+
+def VerFavoritos():
+    conexion = obtener_conexion()
+    contactos = []
+    with conexion.cursor() as cursor:
+        cursor.execute("select * from CONTACTO inner join FAVORITO F on CONTACTO.IdContacto = F.IdFavorito")
+        contactos = cursor.fetchall()
+    conexion.close()
+    return contactos

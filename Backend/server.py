@@ -66,6 +66,11 @@ def addFavorite():
     controlador.AgregarFavorito(id_contacto)
     return jsonify({"respuesta":"EL CONTACTO HA SIDO INGRESADO A FAVORITOS EXITOSAMENTE"})
 
+@app.route('/showFavorites', methods=["GET"])
+def showFavorites():
+    favoritos = controlador.VerFavoritos()
+    return jsonify({"respuesta":favoritos})
+
 if __name__ == '__main__':
     print("SERVIDOR INICIADO EN EL PUERTO: 5000")
     

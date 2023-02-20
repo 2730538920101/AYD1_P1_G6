@@ -27,7 +27,7 @@ def VerContactos():
     conexion = obtener_conexion()
     contactos = []
     with conexion.cursor() as cursor:
-        cursor.execute("SELECT * FROM CONTACTO")
+        cursor.execute("SELECT c.IdContacto, c.Nombre, c.Apellido, c.Telefono, c.Correo, CASE WHEN f.IdFavorito IS NULL THEN 0 ELSE 1 END AS isFavorito FROM CONTACTO c LEFT JOIN FAVORITO f ON c.IdContacto = f.IdFavorito")
         contactos = cursor.fetchall()
     conexion.close()
     return contactos

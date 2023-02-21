@@ -13,6 +13,7 @@ function Mosaico(props) {
                         apellido={c[2]}
                         telefono={c[3]}
                         correo={c[4]}
+                        onComplete = {props.onComplete()}
                     />
 
                 ))}

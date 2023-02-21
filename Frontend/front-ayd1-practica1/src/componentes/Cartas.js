@@ -3,8 +3,25 @@ import { Button, Card } from 'semantic-ui-react'
 
 function Cartas(props) { 
 
-    async function eliminarFavo() {
+    async function eliminarFavors() {
         console.log(props.id + " " + props.nombre + " " + props.apellido + " " + props.telefono + " " + props.correo)
+    }
+
+
+    const url = "http://localhost:5000/";
+
+    async function eliminarFavo(id) {
+
+      console.log(id)
+      let requestDelete = {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      };
+  
+      await fetch(`${url}deleteFavorite/${id}`, requestDelete)
+        .then((response) => response.json())
+        .then((data) => {          
+        });
     }
 
   return (  
@@ -19,7 +36,10 @@ function Cartas(props) {
         </Card.Content>
         <Card.Content extra>
           <div className='ui two buttons'> 
-            <Button basic color='red' onClick={eliminarFavo}>
+            <Button basic color='red' onClick={() => {
+                            eliminarFavo(props.id);
+                            props.onComplete();
+                          }}>
               ELIMINAR DE FAVORITOS
             </Button>
           </div>

@@ -8,6 +8,8 @@ import { z } from "zod";
 
 import styles from "../App.css";
 
+const SERVER_URL = "http://localhost:5000";
+
 const registerSchema = z.object({
   nombre: z
     .string()
@@ -28,7 +30,7 @@ const registerSchema = z.object({
     .max(50, { message: "El nombre no puede ser mayor a 50 caracteres" }),
 });
 
-function NuevoContacto() {
+function NuevoContacto({ contacto = null, handleOnSubmit = null }) {
   const methods = useForm({
     resolver: zodResolver(registerSchema),
   });
@@ -36,6 +38,7 @@ function NuevoContacto() {
   const {
     reset,
     handleSubmit,
+    setValue,
     register,
     formState: { isSubmitSuccessful, errors },
   } = methods;
@@ -47,18 +50,33 @@ function NuevoContacto() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSubmitSuccessful]);
 
+  useEffect(() => {
+    if (contacto != null) {
+      setValue("nombre", contacto.nombre);
+      setValue("apellido", contacto.apellido);
+      setValue("telefono", contacto.telefono);
+      setValue("correo", contacto.correo);
+    }
+  }, []); //eslint-disable-line
+
   const onHandleSubmit = async (data) => {
-    await fetch("http://localhost:5000/addContact", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {"Content-type": "application/json; charset=UTF-8"}
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-      }).catch((error) => {
-        console.log(error);
-      });
+    if (!handleOnSubmit) {
+      await fetch(`${SERVER_URL}/addContact`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-type": "application/json; charset=UTF-8" },
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+
+      handleOnSubmit(data) 
+    }
   };
   return (
     <div className={"form_container"}>
@@ -118,7 +136,7 @@ function NuevoContacto() {
               )}
             </Form.Group>
             <Button variant="primary" type="submit">
-              Crear Usuario
+              {handleOnSubmit == null ? "Crear Contacto" : "Actualizar"}
             </Button>
           </Form>
         </FormProvider>

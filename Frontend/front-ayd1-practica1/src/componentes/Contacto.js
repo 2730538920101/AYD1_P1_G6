@@ -5,11 +5,13 @@ import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
+import NuevoContacto from "./NuevoContacto";
 
 function Contacto() {
   const url = "http://localhost:5000/";
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [selectedContact, setSelectedContact] = useState({});
   const contactos = data.map(
     ([id, nombre, apellido, telefono, correo, isFavorito]) => ({
       id,
@@ -22,6 +24,7 @@ function Contacto() {
   );
 
   async function verContactos() {
+    console.log("ejecutando contactos");
     await fetch(`${url}showContacts`)
       .then((response) => response.json())
       .then((data) => {
@@ -58,7 +61,24 @@ function Contacto() {
 
   useEffect(() => {
     verContactos();
-  }, []);
+  }, [showModal]);
+
+  const handleOnSubmit = async (contactValue) => {
+    console.log(contactValue);
+    await fetch(`${url}updateContact/${selectedContact.id}`, {
+      method: "PUT",
+      body: JSON.stringify(contactValue),
+      headers: { "Content-type": "application/json; charset=UTF-8" },
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setShowModal(false);
+  };
 
   return (
     <div>
@@ -90,6 +110,7 @@ function Contacto() {
                         <Button
                           variant="info"
                           onClick={() => {
+                            setSelectedContact(contacto);
                             setShowModal(true);
                           }}
                         >
@@ -133,7 +154,12 @@ function Contacto() {
         <Modal.Header closeButton>
           <Modal.Title>Información del Contacto</Modal.Title>
         </Modal.Header>
-        <Modal.Body></Modal.Body>
+        <Modal.Body>
+          <NuevoContacto
+            contacto={selectedContact}
+            handleOnSubmit={handleOnSubmit}
+          />
+        </Modal.Body>
       </Modal>
     </div>
   );

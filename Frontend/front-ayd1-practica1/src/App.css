@@ -50,3 +50,21 @@
   justify-content: center;
   align-items: center;
 }
+
+.General {
+  background: linear-gradient(150deg, rgb(0, 0, 0), rgb(79, 107, 103), rgb(96, 121, 133));
+  background-size: 400% 300%;
+  animation: BgGradient 5s ease infinite;
+  min-height: 100vh;
+} 
+
+
+@keyframes BgGradient{
+  0%{ background-position: 0% 50%;}
+  50%{background-position: 100% 50%;}
+  100%{ background-position: 0% 50%;}
+}
+
+#contenedorCartas{ 
+  background-color: transparent; 
+}

@@ -20,7 +20,7 @@ function Favoritos() {
 
   return (
     <div className="General">
-      <Mosaico favoritos={data} />
+      <Mosaico favoritos={data} onComplete={() => verFavoritos()} />
     </div>
   )
 }

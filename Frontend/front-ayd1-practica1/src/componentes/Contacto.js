@@ -6,30 +6,39 @@ import Table from "react-bootstrap/Table";
 import { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import NuevoContacto from "./NuevoContacto";
+import { BuscarContacto } from "./BuscarContact";
+
 
 function Contacto() {
   const url = "http://localhost:5000/";
-  const [data, setData] = useState([]);
+  const [cachedData, setCachedData] = useState([]);
+  const [selectedContact, setSelectedContact] = useState();
   const [showModal, setShowModal] = useState(false);
-  const [selectedContact, setSelectedContact] = useState({});
-  const contactos = data.map(
-    ([id, nombre, apellido, telefono, correo, isFavorito]) => ({
-      id,
-      nombre,
-      apellido,
-      telefono,
-      correo,
-      isFavorito,
-    })
-  );
+  const [contacts, setContacts] = useState([]);
 
   async function verContactos() {
-    console.log("ejecutando contactos");
     await fetch(`${url}showContacts`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.respuesta);
-        setData(data.respuesta);
+        const temporal = data.respuesta.map(
+          ([id, nombre, apellido, telefono, correo, isFavorito]) => {
+            return {
+              id,
+              nombre,
+              apellido,
+              telefono,
+              correo,
+              isFavorito,
+            };
+          }
+        );
+
+      setContacts(temporal)
+      setCachedData(temporal)
+
+      })
+      .catch((error) => {
+        console.log(error);
       });
   }
 
@@ -64,7 +73,6 @@ function Contacto() {
   }, [showModal]);
 
   const handleOnSubmit = async (contactValue) => {
-    console.log(contactValue);
     await fetch(`${url}updateContact/${selectedContact.id}`, {
       method: "PUT",
       body: JSON.stringify(contactValue),
@@ -77,11 +85,29 @@ function Contacto() {
       .catch((error) => {
         console.log(error);
       });
+
+    setSelectedContact({})
     setShowModal(false);
   };
 
+  const onChangeSelected = (selected) => { 
+    if(selected.length) { 
+      setContacts(selected)
+    } else { 
+      setContacts(cachedData)
+    }
+  }
+
+
   return (
     <div>
+      <div className="buscar-container">
+        <h3>Buscar Contacto</h3>
+        <BuscarContacto
+          options={contacts}
+          setSelected={onChangeSelected}
+        />
+        </div>
       <br></br>
       <h1>Listado de Contacto</h1>
       <Container fluid>
@@ -99,7 +125,7 @@ function Contacto() {
                 </tr>
               </thead>
               <tbody>
-                {contactos.map((contacto) => {
+                {contacts.map((contacto) => {
                   return (
                     <tr key={contacto.id}>
                       <td>{contacto.nombre}</td>

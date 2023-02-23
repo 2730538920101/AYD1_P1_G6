@@ -163,10 +163,6 @@ function Contacto() {
                         ) : (
                           "Ya es favorito"
                         )}
-
-                        <Button variant="success" style={{ marginLeft: "1%" }}>
-                          Enviar email
-                        </Button>
                       </td>
                     </tr>
                   );

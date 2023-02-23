@@ -74,8 +74,7 @@ function NuevoContacto({ contacto = null, handleOnSubmit = null }) {
           console.log(error);
         });
     } else {
-
-      handleOnSubmit(data) 
+      handleOnSubmit(data);
     }
   };
   return (

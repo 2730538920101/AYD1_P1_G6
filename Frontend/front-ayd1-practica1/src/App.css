@@ -68,3 +68,14 @@
 #contenedorCartas{ 
   background-color: transparent; 
 }
+
+
+.buscar-container {
+  flex-direction: column;
+  padding: 3rem;
+  width: 50%;
+}
+
+.buscar-container Button {
+  margin: 1rem;
+}

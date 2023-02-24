@@ -6,7 +6,7 @@ def enviarCorreoG(remitente: str, destinatario: str, mensaje: str):
     if remitente_dominio[1] == "gmail.com" and destinatario_dominio[1] == "gmail.com":
         email = EmailMessage()
         email["From"] = remitente
-        email["To"] = remitente
+        email["To"] = destinatario
         email["Subject"] = "Correo de prueba"
         email.set_content(mensaje)
         smtp = smtplib.SMTP_SSL("smtp.gmail.com")

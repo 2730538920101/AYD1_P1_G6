@@ -76,7 +76,7 @@ def showFavorites():
 def sendEmail():
     email_data = request.json
     remitente = email_data["remitente"]
-    destinatario = email_data["destinario"]
+    destinatario = email_data["receptor"]
     mensaje = email_data["mensaje"]
     response_js = conexionstmp.enviarCorreoG(remitente, destinatario, mensaje)
     return jsonify({"response_js":response_js})

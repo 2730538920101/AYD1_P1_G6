@@ -1,5 +1,5 @@
 from conexion import obtener_conexion
-import controlador
+import controlador, conexionstmp
 from flask import Flask, jsonify, request, Response
 from flask_cors import CORS
 
@@ -70,6 +70,19 @@ def addFavorite():
 def showFavorites():
     favoritos = controlador.VerFavoritos()
     return jsonify({"respuesta":favoritos})
+
+
+@app.route('/sendEmail', methods=["GET"])
+def sendEmail():
+    email_data = request.json
+    remitente = email_data["remitente"]
+    destinatario = email_data["destinario"]
+    mensaje = email_data["mensaje"]
+    response_js = conexionstmp.enviarCorreoG(remitente, destinatario, mensaje)
+    return jsonify({"response_js":response_js})
+
+
+
 
 if __name__ == '__main__':
     print("SERVIDOR INICIADO EN EL PUERTO: 5000")
